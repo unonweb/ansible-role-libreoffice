@@ -12,16 +12,18 @@
       method: system
       state: "{{ libreoffice_flatpak_state }}"
 
-  # apt
-  - name: Apt state {{ libreoffice_apt_state }}
+  # apt install
+  - when: libreoffice_apt_state == "present"
+    name: Apt install {{ libreoffice_apt_install }}
     become: true
     ansible.builtin.apt:
-      state: "{{ libreoffice_apt_state }}"
-      name: 
-      - libreoffice
-      - libreoffice-writer
-      - libreoffice-calc
-      - libreoffice-impress
-      - libreoffice-base
-      - libreoffice-draw
-      - libreoffice-math
+      state: present
+      name: "{{ libreoffice_apt_install }}"
+
+  # apt
+  - when: libreoffice_apt_state == "absent"
+    name: Apt remove libreoffice*
+    become: true
+    ansible.builtin.apt:
+      state: absent
+      name: libreoffice*

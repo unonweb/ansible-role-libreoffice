@@ -1,3 +1,11 @@
 ---
 libreoffice_apt_state: absent
+libreoffice_apt_install:
+- libreoffice
+- libreoffice-writer
+- libreoffice-calc
+- libreoffice-impress
+- libreoffice-base
+- libreoffice-draw
+- libreoffice-math
 libreoffice_flatpak_state: present
