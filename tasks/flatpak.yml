@@ -1,0 +1,8 @@
+---
+# flatpak
+- name: Flatpak state {{ libreoffice_flatpak_state }}
+  become: true
+  community.general.flatpak:
+    name: org.libreoffice.LibreOffice
+    method: system
+    state: "{{ libreoffice_flatpak_state }}"

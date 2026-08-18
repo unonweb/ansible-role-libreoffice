@@ -5,25 +5,7 @@
   block:
 
   # flatpak
-  - name: Flatpak state {{ libreoffice_flatpak_state }}
-    become: true
-    community.general.flatpak:
-      name: org.libreoffice.LibreOffice
-      method: system
-      state: "{{ libreoffice_flatpak_state }}"
-
-  # apt install
-  - when: libreoffice_apt_state == "present"
-    name: Apt install {{ libreoffice_apt_install }}
-    become: true
-    ansible.builtin.apt:
-      state: present
-      name: "{{ libreoffice_apt_install }}"
+  - ansible.builtin.import_tasks: flatpak.yml
 
   # apt
-  - when: libreoffice_apt_state == "absent"
-    name: Apt remove libreoffice*
-    become: true
-    ansible.builtin.apt:
-      state: absent
-      name: libreoffice*
+  - ansible.builtin.import_tasks: apt.yml
