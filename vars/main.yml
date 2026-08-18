@@ -1,0 +1,3 @@
+---
+__libreoffice_flatpak_id: org.libreoffice.LibreOffice
+__libreoffice_flatpak_overrides_dir: /home/{{ libreoffice_user }}/.local/share/flatpak/overrides

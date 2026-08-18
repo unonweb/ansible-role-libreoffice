@@ -1,8 +1,55 @@
 ---
-# flatpak
+# flatpak install
 - name: Flatpak state {{ libreoffice_flatpak_state }}
   become: true
   community.general.flatpak:
-    name: org.libreoffice.LibreOffice
+    name: "{{ __libreoffice_flatpak_id }}"
     method: system
     state: "{{ libreoffice_flatpak_state }}"
+
+# flatpak overrides
+- when: libreoffice_flatpak_overrides != None
+  block:
+
+  # check vars
+  - name: Check vars for libreoffice_user role
+    ansible.builtin.assert:
+      that:
+      - libreoffice_user != None
+
+  # make sure user exists
+  - name: Check if user exists {{ libreoffice_user }}
+    command: "getent passwd {{ libreoffice_user }}"
+    changed_when: false
+
+  # mkdir overrides
+  - name: Mkdir {{ __libreoffice_flatpak_overrides_dir }}
+    become: true
+    ansible.builtin.file:
+      state: directory
+      mode: u=rwx,g=,o=rx
+      owner: "{{ libreoffice_user }}"
+      group: "{{ libreoffice_user }}"
+      path: "{{ __libreoffice_flatpak_overrides_dir }}"
+
+  # flatpak override
+  - name: Template {{ libreoffice_flatpak_overrides_template }}
+    become: true
+    ansible.builtin.template:
+      src: flatpak-overrides-generic.j2
+      dest: "{{ __libreoffice_flatpak_overrides_dir }}/{{ __libreoffice_flatpak_id }}"
+      owner: "{{ libreoffice_user }}"
+      group: "{{ libreoffice_user }}"
+      mode: u=rw,g=,o=r # world readable
+
+# flatpak permissions
+- when: libreoffice_flatpak_permissions | length > 0
+  tags: libreoffice-flatpak-permissions
+  block:
+
+  # set permission
+  - name: Set permissions
+    ansible.builtin.command:
+      cmd: "flatpak permission-set {{ item.table }} {{ item.id }} {{ __libreoffice_flatpak_id }} {{ item.value }}"
+    loop: "{{ libreoffice_flatpak_permissions }}"
+    changed_when: false

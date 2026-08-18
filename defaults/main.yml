@@ -1,4 +1,6 @@
 ---
+libreoffice_user:
+
 # APT
 # ---
 libreoffice_apt_state: absent
@@ -14,3 +16,11 @@ libreoffice_apt_install:
 # FLATPAK
 # -------
 libreoffice_flatpak_state: present
+libreoffice_flatpak_overrides:
+libreoffice_flatpak_permissions:
+- table: "background"
+  id: "background"
+  value: "yes"
+- table: "notifications"
+  id: "notification"
+  value: "yes"
