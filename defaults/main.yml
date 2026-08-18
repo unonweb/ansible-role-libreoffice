@@ -1,4 +1,6 @@
 ---
+# APT
+# ---
 libreoffice_apt_state: absent
 libreoffice_apt_install:
 - libreoffice
@@ -8,4 +10,7 @@ libreoffice_apt_install:
 - libreoffice-base
 - libreoffice-draw
 - libreoffice-math
+
+# FLATPAK
+# -------
 libreoffice_flatpak_state: present
