@@ -32,8 +32,8 @@
       group: "{{ libreoffice_user }}"
       path: "{{ __libreoffice_flatpak_overrides_dir }}"
 
-  # flatpak override
-  - name: Template {{ libreoffice_flatpak_overrides_template }}
+  # flatpak overrides
+  - name: Template overrides {{ __libreoffice_flatpak_overrides_dir }}/{{ __libreoffice_flatpak_id }}
     become: true
     ansible.builtin.template:
       src: flatpak-overrides-generic.j2
