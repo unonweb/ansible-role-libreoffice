@@ -1,11 +1,10 @@
 ---
 - name: libreoffice role
-  tags:
-    - libreoffice
+  tags: [libreoffice]
   block:
 
   # flatpak
-  - ansible.builtin.import_tasks: flatpak.yml
+  - ansible.builtin.import_tasks: libreoffice-flatpak.yml
 
   # apt
-  - ansible.builtin.import_tasks: apt.yml
+  - ansible.builtin.import_tasks: libreoffice-apt.yml

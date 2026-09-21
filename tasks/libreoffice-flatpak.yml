@@ -1,0 +1,18 @@
+---
+- tags: [libreoffice-flatpak]
+  block:
+
+  # flatpak install
+  - name: Flatpak state {{ libreoffice_flatpak_state }}
+    tags: [libreoffice-flatpak-install]
+    become: true
+    community.general.flatpak:
+      name: "{{ __libreoffice_flatpak_id }}"
+      method: system
+      state: "{{ libreoffice_flatpak_state }}"
+
+  # flatpak overrides
+  - ansible.builtin.import_tasks: libreoffice-flatpak-overrides.yml
+
+  # flatpak permissions
+  - ansible.builtin.import_tasks: libreoffice-flatpak-permissions.yml

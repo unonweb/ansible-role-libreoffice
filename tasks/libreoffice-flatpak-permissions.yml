@@ -1,0 +1,12 @@
+---
+# flatpak permissions
+- tags: [libreoffice-flatpak-permissions]
+  when: libreoffice_flatpak_permissions | length > 0
+  block:
+
+  # set permission
+  - name: Set permissions
+    ansible.builtin.command:
+      cmd: "flatpak permission-set {{ item.table }} {{ item.id }} {{ __libreoffice_flatpak_id }} {{ item.value }}"
+    loop: "{{ libreoffice_flatpak_permissions }}"
+    changed_when: false
